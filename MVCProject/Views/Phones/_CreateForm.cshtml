@@ -1,0 +1,115 @@
+﻿@model MVCProject.Models.ViewModels.PhoneVM
+@using (Ajax.BeginForm("Create", "Phones", new { }, new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "form-div",
+    OnSuccess = "Success"}, new { id = "frm", enctype = "multipart/form-data" }))
+{
+    <h3 class="display-4">Add New Phones</h3>
+    <div class="row mb-2">
+     @Html.LabelFor(x => x.BrandId, new { @class = "col-form-label col-2 " })
+     <div class="col-6">
+         @Html.DropDownListFor(x => x.BrandId, new SelectList(ViewBag.BrandModel, "BrandId", "BrandName"), "---Select---", new { @class = "form-select" })
+     </div>
+     <div class="col-4">
+         @Html.ValidationMessageFor(x => x.BrandId, "", new { @class = "text-danger" })
+     </div>
+ </div>
+
+    <div class="row mb-2">
+        @Html.LabelFor(s => s.PhoneModelId, new { @class = "col-form-label col-2" })
+        <div class="col-6">
+            @Html.DropDownListFor(s => s.PhoneModelId, new SelectList(ViewBag.PhoneModel, "PhoneModelId", "ModelName"), "--Select Model--", new { @class = "form-select" })
+        </div>
+        <div class="col-4">
+            @Html.ValidationMessageFor(s => s.PhoneModelId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        @Html.LabelFor(s => s.PhoneName, new { @class = "col-form-label col-2" })
+        <div class="col-6">
+            @Html.TextBoxFor(s => s.PhoneName, new { @class = "form-control" })
+        </div>
+        <div class="col-4">
+            @Html.ValidationMessageFor(s => s.PhoneName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        @Html.LabelFor(s => s.ReliseDate, new { @class = "col-form-label col-2" })
+        <div class="col-6">
+            @Html.TextBoxFor(s => s.ReliseDate, new { @class = "form-control", type = "date" })
+        </div>
+        <div class="col-4">
+            @Html.ValidationMessageFor(s => s.ReliseDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        @Html.LabelFor(s => s.Picture, new { @class = "col-form-label col-2" })
+        <div class="col-6">
+            @Html.TextBoxFor(s => s.Picture, new { @class = "form-control", type = "file" })
+        </div>
+        <div class="col-4">
+            @Html.ValidationMessageFor(s => s.Picture, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-10 offset-2">
+            <div class="form-check">
+                @Html.CheckBoxFor(s=>s.IsOfficial)
+                <label>
+                    Is It Official Device?
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6">
+            <div class="d-flex justify-content-between">
+                <h2 class="display-4">Stock Details</h2>
+                <button class="btn btn-outline-info btn-sm" type="submit" name="cct" value="add" formnovalidate><i class="fa fa-plus-circle"></i></button>
+            </div>
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>Color :</th>
+                        <th>Price :</th>
+                        <th>Quantity :</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.StockDetails.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.EnumDropDownListFor(s => Model.StockDetails[i].Color, new { @class = "form-select" })
+                                @Html.ValidationMessageFor(s => Model.StockDetails[i].Color, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(s => Model.StockDetails[i].Price, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(s => Model.StockDetails[i].Price, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(s => Model.StockDetails[i].Quantity, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(s => Model.StockDetails[i].Quantity, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                <button name="cct" value="remove_@i" type="submit" class="btn btn-danger btn-sm" formnovalidate><i class="fa fa-remove"></i></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row mb-2 justify-content-center">
+        <div class="col-6">
+            <button type="submit" name="cct" value="insert" class="btn btn-outline-warning btn-lg"><i class="fa fa-save"></i>Save</button>
+        </div>
+
+    </div>
+}
